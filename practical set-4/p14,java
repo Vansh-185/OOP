@@ -1,1 +1,76 @@
+import java.util.Scanner;
 
+class BankAccount {
+    String accountNumber;
+    String accountHolderName;
+    double balance;
+
+    void openAccount() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter account number: ");
+        accountNumber = sc.nextLine();
+        System.out.print("Enter account holder name: ");
+        accountHolderName = sc.nextLine();
+        System.out.print("Enter initial balance: ");
+        balance = sc.nextDouble();
+    }
+
+    void deposit(double amount) {
+        balance += amount;
+        System.out.println("Deposited: " + amount);
+    }
+
+    void withdraw(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            System.out.println("Withdrawn: " + amount);
+        } else {
+            System.out.println("Insufficient balance");
+        }
+    }
+
+    void checkBalance() {
+        System.out.println("Balance: " + balance);
+    }
+}
+
+class SavingAccount extends BankAccount {
+    double interestRate = 5;
+
+    void calculateInterest() {
+        double interest = (balance * interestRate) / 100;
+        System.out.println("Savings Interest: " + interest);
+    }
+}
+
+class FixedDepositAccount extends BankAccount {
+    double rate = 7;
+
+    void maturityAmount(int years) {
+        double amount = balance * Math.pow(1 + rate / 100, years);
+        System.out.println("Maturity Amount: " + amount);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        SavingAccount sa = new SavingAccount();
+        System.out.println("Savings Account:");
+        sa.openAccount();
+        System.out.print("Enter deposit amount: ");
+        sa.deposit(sc.nextDouble());
+        System.out.print("Enter withdraw amount: ");
+        sa.withdraw(sc.nextDouble());
+        sa.checkBalance();
+        sa.calculateInterest();
+
+        FixedDepositAccount fd = new FixedDepositAccount();
+        System.out.println("\nFixed Deposit Account:");
+        fd.openAccount();
+        System.out.print("Enter years: ");
+        int y = sc.nextInt();
+        fd.maturityAmount(y);
+    }
+}
